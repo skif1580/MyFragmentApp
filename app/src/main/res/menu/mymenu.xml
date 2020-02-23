@@ -7,6 +7,14 @@
         android:title="@string/add">
     </item>
     <item
+        android:id="@+id/mn_delet"
+        android:title="Видалити рибалку">
+
+    </item>
+
+
+
+    <item
         android:id="@+id/mn_galerri"
         android:title="@string/mn_galeri">
     </item>

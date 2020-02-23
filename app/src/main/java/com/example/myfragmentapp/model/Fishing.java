@@ -9,13 +9,13 @@ import java.util.Locale;
 public class Fishing extends SugarRecord<Fishing> {
     private String name;
     private String date;
-    private int image;
+    private String image;
     private int fish;
     private int fishWeight;
     private long key;
 
     public Fishing() {
-        this.date=new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        this.date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         this.key = System.currentTimeMillis();
     }
 
@@ -35,11 +35,12 @@ public class Fishing extends SugarRecord<Fishing> {
         this.date = date;
     }
 
-    public int getImage() {
+
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -59,11 +60,14 @@ public class Fishing extends SugarRecord<Fishing> {
         this.fishWeight = fishWeight;
     }
 
-    public Fishing(String name,int image) {
+    public Fishing(String name, String image) {
         this.name = name;
-        this.image=image;
-        this.date=new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-
+        this.image = image;
+        this.date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         this.key = System.currentTimeMillis();
+    }
+
+    public long getKey() {
+        return key;
     }
 }

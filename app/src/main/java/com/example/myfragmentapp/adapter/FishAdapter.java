@@ -1,15 +1,18 @@
 package com.example.myfragmentapp.adapter;
 
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.myfragmentapp.R;
-import com.example.myfragmentapp.model.Fish;
+import com.example.myfragmentapp.app.App;
 import com.example.myfragmentapp.model.Fishing;
+import com.example.myfragmentapp.ui.fragment.FragmentStart;
 
 import java.util.List;
 
@@ -42,16 +45,43 @@ public class FishAdapter extends RecyclerView.Adapter<FishAdapter.FishHolderView
         final Fishing  fishing= list.get(position);
         holder.textView.setText(fishing.getName());
         holder.textData.setText(fishing.getDate());
-        holder.imageView.setImageResource(fishing.getImage());
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
+       if(fishing.getImage()!=null){
+           Uri uri=Uri.parse(fishing.getImage());
+            Glide.with(holder.imageView.getContext())
+                   .load(uri)
+                    .centerCrop()
+                    .placeholder(R.drawable.images)
+                    .into(holder.imageView );
+
+
+            holder.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (startFragmentImage != null) {
+                        startFragmentImage.startFragmentImage(fishing);
+                    }
+                }
+            });
+        }
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                startFragmentImage.onLongClickCardView(fishing);
+                return true;
+            }
+        });
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (startFragmentImage != null) {
-                    startFragmentImage.startFragmentImage(fishing);
-                }
+                startFragmentImage.onClickAddNote(fishing);
+
             }
         });
 
+    }
+    public void setList(List<Fishing> list) {
+        this.list = list;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -76,5 +106,7 @@ public class FishAdapter extends RecyclerView.Adapter<FishAdapter.FishHolderView
 
     public interface StartFragmentImage {
         void startFragmentImage(Fishing fishing);
+        void onLongClickCardView(Fishing fishing);
+        void onClickAddNote(Fishing fishing);
     }
 }

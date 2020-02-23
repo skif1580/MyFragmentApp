@@ -3,17 +3,16 @@ package com.example.myfragmentapp.ui.fragment;
 
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.myfragmentapp.R;
-import com.example.myfragmentapp.model.Fish;
 import com.example.myfragmentapp.model.Fishing;
+
+import androidx.fragment.app.Fragment;
 
 
 public class BlankFragment extends Fragment {
@@ -21,7 +20,7 @@ public class BlankFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private int image;
+    private String image;
     private String mParam2;
     private ImageView imageView;
 
@@ -35,7 +34,7 @@ public class BlankFragment extends Fragment {
     public static BlankFragment newInstance(Fishing fishing, String param2) {
         BlankFragment fragment = new BlankFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_PARAM1, fishing.getImage());
+        args.putString(ARG_PARAM1, fishing.getImage());
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
@@ -45,7 +44,7 @@ public class BlankFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            image = getArguments().getInt(ARG_PARAM1);
+            image = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -55,7 +54,11 @@ public class BlankFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_blank, container, false);
         imageView = view.findViewById(R.id.im_fish);
-        imageView.setImageResource(image);
+        Uri uri=Uri.parse(image);
+        Glide.with(BlankFragment.this)
+                .load(uri)
+                .centerCrop()
+                .into(imageView);
         return view;
     }
 

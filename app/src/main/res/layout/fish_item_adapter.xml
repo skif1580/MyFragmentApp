@@ -8,8 +8,8 @@
     android:layout_marginLeft="6dp"
     android:layout_marginTop="5dp"
     android:layout_marginRight="6dp"
-    android:background="@color/colorAccent"
-    android:backgroundTint="@color/colorPrimary"
+    android:background="#047514"
+    android:backgroundTint="#4A67F9"
     android:elevation="20dp"
     android:orientation="vertical"
     app:cardCornerRadius="5dp">
@@ -22,11 +22,9 @@
 
         <TextView
             android:id="@+id/tv_asses_item"
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="-50dp"
-            android:layout_toEndOf="@+id/im_asses_item"
             android:background="@color/colorAccent"
             android:text="TextView"
             android:textSize="30dp" />
@@ -46,12 +44,12 @@
 
         <ImageView
             android:id="@+id/im_asses_item"
-            android:layout_width="50dp"
+            android:layout_width="70dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="114dp"
             android:clickable="true"
-            android:scaleType="fitXY"
-            android:focusable="true" />
+            android:focusable="true"
+            android:scaleType="fitXY" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
