@@ -3,41 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/mn_add"
+
         android:checkable="false"
-        android:title="@string/add">
-    </item>
-    <item
-        android:id="@+id/mn_delet"
-        android:title="Видалити рибалку">
-
-    </item>
-
-
-
-    <item
-        android:id="@+id/mn_galerri"
-        android:title="@string/mn_galeri">
-    </item>
-    <item
-        android:id="@+id/mn_lure"
-        android:title="@string/mn_lure">
-        <menu>
-            <item
-                android:id="@+id/mn_wobbler"
-                android:title="Воблер">
-            </item>
-            <item
-                android:id="@+id/mn_silicon"
-                android:title="Силікон">
-            </item>
-            <item
-                android:id="@+id/mn_flashed"
-                android:title="Блесна">
-            </item>
-
-        </menu>
-
-
+        android:icon="@drawable/ic_note_add_black_24dp"
+        android:title="@string/add"
+        app:showAsAction="never">
     </item>
 
 </menu>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Toolbar
+        android:layout_alignParentTop="true"
+        android:id="@+id/toolbar_lure"
+        style="@style/Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center_horizontal"
+        android:minHeight="?attr/actionBarSize" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/lure_tab_layout"
+        style="@style/Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_below="@+id/toolbar_lure"
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize"
+        app:tabGravity="fill"
+        app:tabMode="fixed"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/lure_pager"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/lure_tab_layout"/>
+
+</RelativeLayout>

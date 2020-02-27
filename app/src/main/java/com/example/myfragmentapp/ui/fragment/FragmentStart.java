@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -19,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.myfragmentapp.R;
@@ -30,17 +28,15 @@ import com.example.myfragmentapp.model.Fishing;
 import com.example.myfragmentapp.prezenter.InitianWindowPrezenter;
 import com.example.myfragmentapp.ui.GetStartFragmentImage;
 import com.example.myfragmentapp.ui.fragment.interfaces.InitianWindow;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Observer;
@@ -63,6 +59,7 @@ public class FragmentStart extends MvpAppCompatFragment implements InitianWindow
     private String name;
     private static final int GALLERY_REQUEST = 1000;
     private long key;
+    Snackbar snackbar;
     @InjectPresenter
     InitianWindowPrezenter prezenter;
 
@@ -121,7 +118,7 @@ public class FragmentStart extends MvpAppCompatFragment implements InitianWindow
                     }
                 });
         toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setTitle("Записник рибака");
+        toolbar.setTitle("Рибалка");
         toolbar.inflateMenu(R.menu.mymenu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -130,13 +127,6 @@ public class FragmentStart extends MvpAppCompatFragment implements InitianWindow
                     case R.id.mn_add:
                         addDialogShow(fishAdapter);
                         break;
-                    case R.id.mn_delet:
-
-                        break;
-                    case R.id.mn_galerri:
-                        if (stfrtFragment2 != null) {
-                            stfrtFragment2.stertFrag();
-                        }
                     default:
                 }
                 return true;
@@ -170,16 +160,9 @@ public class FragmentStart extends MvpAppCompatFragment implements InitianWindow
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Executor executor;
-        executor = Executors.newCachedThreadPool();
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
+        snackbar=Snackbar.make(view,"Ok", BaseTransientBottomBar.LENGTH_LONG);
 
-            }
-        });
 
-        Environment.getExternalStorageState();
 
     }
 
@@ -189,38 +172,37 @@ public class FragmentStart extends MvpAppCompatFragment implements InitianWindow
         dialog.setTitle("Add fishing")
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setView(view)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        EditText editText = view.findViewById(R.id.et_alert);
-                        name = editText.getText().toString();
-                        Fishing fishing = new Fishing();
-                        new PrezenterDB().myComplit(fishing)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new CompletableObserver() {
-                                    @Override
-                                    public void onSubscribe(Disposable d) {
+                .setPositiveButton("OK", (dialog1, which) -> {
+                    EditText editText = view.findViewById(R.id.et_alert);
+                    name = editText.getText().toString();
+                    Fishing fishing = new Fishing();
+                    new PrezenterDB().myComplit(fishing)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new CompletableObserver() {
+                                @Override
+                                public void onSubscribe(Disposable d) {
 
-                                    }
+                                }
 
-                                    @Override
-                                    public void onComplete() {
-                                        Toast.makeText(getContext(), "ok", Toast.LENGTH_LONG).show();
+                                @Override
+                                public void onComplete() {
+                                    snackbar.setAction("Action",null)
+                                            .setDuration(5000)
+                                            .show();
 
-                                    }
+                                }
 
-                                    @Override
-                                    public void onError(Throwable e) {
+                                @Override
+                                public void onError(Throwable e) {
 
 
-                                    }
-                                });
-                        fishing.setName(name);
-                        listFishing.add(fishing);
-                        RepozitoriDB.addFIshingDB(fishing);
+                                }
+                            });
+                    fishing.setName(name);
+                    listFishing.add(fishing);
+                    RepozitoriDB.addFIshingDB(fishing);
 
-                    }
                 })
                 .setNegativeButton("Cansel", null);
 
@@ -231,15 +213,12 @@ public class FragmentStart extends MvpAppCompatFragment implements InitianWindow
     private void deleteFishing(final Fishing fishing) {
         AlertDialog.Builder dialogDelet = new AlertDialog.Builder(getActivity());
         dialogDelet.setTitle("Delete List ?")
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        RepozitoriDB.deleteFishing(fishing);
-                        listFishing.remove(fishing);
-                        fishAdapter.setList(listFishing);
+                .setPositiveButton("Ok", (dialog, which) -> {
+                    RepozitoriDB.deleteFishing(fishing);
+                    listFishing.remove(fishing);
+                    fishAdapter.setList(listFishing);
 
 
-                    }
                 });
         dialogDelet.show();
 
