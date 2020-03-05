@@ -1,28 +1,43 @@
 package com.example.myfragmentapp.adapter;
 
 
+import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.myfragmentapp.R;
 import com.example.myfragmentapp.app.App;
+import com.example.myfragmentapp.db.PrezenterDB;
+import com.example.myfragmentapp.db.RepozitoriDB;
 import com.example.myfragmentapp.model.Fishing;
+import com.example.myfragmentapp.prezenter.InitianWindowPrezenter;
 import com.example.myfragmentapp.ui.fragment.FragmentStart;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+import io.reactivex.CompletableObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class FishAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_FOOTER = 1;
     private static final int TYPE_ITEM = 2;
+    private String name;
+    private Context context;
+
 
 
     private List<Fishing> list;
@@ -32,8 +47,10 @@ public class FishAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.startFragmentImage = startFragmentImage;
     }
 
-    public FishAdapter(List<Fishing> list) {
+    public FishAdapter(List<Fishing> list, Context context) {
         this.list = list;
+        this.context=context;
+        list.add(new Fishing());
 
     }
 
@@ -98,6 +115,52 @@ public class FishAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (holder instanceof FooterHolder) {
             FooterHolder footerHolder = (FooterHolder) holder;
             footerHolder.textView.setText("ADD fisching");
+            footerHolder.textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final View view = View.inflate(context,R.layout.aler_dialog, null);
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                    dialog.setTitle("Add fishing")
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setView(view)
+                            .setPositiveButton("OK", (dialog1, which) -> {
+                                EditText editText = view.findViewById(R.id.et_alert);
+                                name = editText.getText().toString();
+                                Fishing fishing = new Fishing();
+                                new PrezenterDB().myComplit(fishing)
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(new CompletableObserver() {
+                                            @Override
+                                            public void onSubscribe(Disposable d) {
+
+                                            }
+
+                                            @Override
+                                            public void onComplete() {
+
+
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable e) {
+
+
+                                            }
+                                        });
+                                fishing.setName(name);
+                                list.add(fishing);
+                                RepozitoriDB.addFIshingDB(fishing);
+                                setList(list);
+
+                            })
+                            .setNegativeButton("Cansel", null);
+
+                    dialog.show();
+
+
+                }
+            });
         }
 
     }
@@ -108,7 +171,7 @@ public class FishAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
     @Override
     public int getItemViewType(int position) {
-        if (position == list.size() + 1) {
+        if (position == list.size()-1 ) {
             return TYPE_FOOTER;
         } else
             return TYPE_ITEM;

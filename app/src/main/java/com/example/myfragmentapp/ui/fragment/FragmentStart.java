@@ -62,6 +62,8 @@ public class FragmentStart extends MvpAppCompatFragment implements InitianWindow
     InitianWindowPrezenter prezenter;
 
 
+
+
     public interface StfrtFragment2 {
         void stertFrag();
     }
@@ -100,7 +102,7 @@ public class FragmentStart extends MvpAppCompatFragment implements InitianWindow
                     @Override
                     public void onNext(List<Fishing> list) {
                         listFishing = list;
-                        fishAdapter = new FishAdapter(listFishing);
+                        fishAdapter = new FishAdapter(listFishing,getActivity());
 
                     }
 
@@ -122,7 +124,7 @@ public class FragmentStart extends MvpAppCompatFragment implements InitianWindow
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.mn_add:
-                        addDialogShow(fishAdapter);
+
                         break;
                     default:
                 }
@@ -197,6 +199,7 @@ public class FragmentStart extends MvpAppCompatFragment implements InitianWindow
                     fishing.setName(name);
                     listFishing.add(fishing);
                     RepozitoriDB.addFIshingDB(fishing);
+                    adapter.setList(listFishing);
 
                 })
                 .setNegativeButton("Cansel", null);
