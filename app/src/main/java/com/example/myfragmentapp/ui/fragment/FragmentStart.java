@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toolbar;
 
@@ -52,14 +51,13 @@ import static android.app.Activity.RESULT_CANCELED;
 
 public class FragmentStart extends MvpAppCompatFragment implements InitianWindow {
     private RecyclerView recyclerView;
-    private Button button;
     private List<Fishing> listFishing;
     private FishAdapter fishAdapter;
     private Toolbar toolbar;
     private String name;
     private static final int GALLERY_REQUEST = 1000;
     private long key;
-    Snackbar snackbar;
+    private Snackbar snackbar;
     @InjectPresenter
     InitianWindowPrezenter prezenter;
 
@@ -92,7 +90,6 @@ public class FragmentStart extends MvpAppCompatFragment implements InitianWindow
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_start_layout, container, false);
-        button = view.findViewById(R.id.bt_frg1);
         new PrezenterDB().getFisingList()
                 .subscribe(new Observer<List<Fishing>>() {
                     @Override
@@ -150,9 +147,8 @@ public class FragmentStart extends MvpAppCompatFragment implements InitianWindow
             }
         };
         recyclerView = view.findViewById(R.id.rv_list);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),1));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         recyclerView.setAdapter(fishAdapter);
-        button.setOnClickListener(v -> RepozitoriDB.deleteFishingList(listFishing));
         fishAdapter.setOnClickImage(startFragmentImage);
         return view;
     }
@@ -160,8 +156,7 @@ public class FragmentStart extends MvpAppCompatFragment implements InitianWindow
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        snackbar=Snackbar.make(view,"Ok", BaseTransientBottomBar.LENGTH_LONG);
-
+        snackbar = Snackbar.make(view, "Ok", BaseTransientBottomBar.LENGTH_LONG);
 
 
     }
@@ -187,7 +182,7 @@ public class FragmentStart extends MvpAppCompatFragment implements InitianWindow
 
                                 @Override
                                 public void onComplete() {
-                                    snackbar.setAction("Action",null)
+                                    snackbar.setAction("Action", null)
                                             .setDuration(5000)
                                             .show();
 

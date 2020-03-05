@@ -18,7 +18,7 @@ import com.example.myfragmentapp.ui.fragment.FragmentStart;
 import com.example.myfragmentapp.R;
 
 import com.example.myfragmentapp.ui.fragment.LureCollection;
-import com.example.myfragmentapp.ui.fragment.dummy.DummyContent;
+
 
 public class MainActivity extends AppCompatActivity implements FragmentStart.StfrtFragment2, GetStartFragmentImage, Aut_Fragment.AddStartFragment,
         FirstWindow.OnFragmentInteractionListener {

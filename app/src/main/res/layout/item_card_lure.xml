@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cv_lure_container"
+    android:elevation="20dp"
+    android:layout_marginLeft="6dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="6dp"
+    app:cardCornerRadius="15dp">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/im_lure_item"
+            android:layout_width="60dp"
+            android:layout_height="60dp">
+        </ImageView>
+        <TextView
+            android:layout_toRightOf="@+id/im_lure_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:hint="name"
+            android:textSize="30dp"
+             android:id="@+id/tv_lure_name">
+        </TextView>
+        <TextView
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/im_lure_item"
+            android:layout_alignBottom="@+id/im_lure_item"
+            android:id="@+id/tv_lure_sybname"
+            android:hint="sybname"
+            android:textSize="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </TextView>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
