@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.example.myfragmentapp.R;
 import com.example.myfragmentapp.adapter.LureAdapter;
+import com.example.myfragmentapp.db.RepozitoriDB;
 import com.example.myfragmentapp.model.LureModel;
 import com.example.myfragmentapp.ui.TypeLure;
 
@@ -20,9 +21,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import moxy.MvpAppCompatFragment;
 
-public class MySpoon extends MvpAppCompatFragment   {
+public class MySpoon extends MvpAppCompatFragment {
     private RecyclerView recyclerView;
     private LureAdapter adapter;
+    private LureModel lureModel;
+    private List<LureModel> list;
 
     public static MySpoon newInstance() {
 
@@ -36,15 +39,26 @@ public class MySpoon extends MvpAppCompatFragment   {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_spoon_fragment, container, false);
-        List<LureModel>list=new ArrayList<>();
-        list.add(new LureModel("Meps", TypeLure.SPOON));
-        list.add(new LureModel("Condor", TypeLure.SPOON));
-        list.add(new LureModel("Ponton 21", TypeLure.SPOON));
-        list.add(new LureModel("Straick", TypeLure.SPOON));
-        adapter=new LureAdapter(list);
-        recyclerView=view.findViewById(R.id.rv_list_spoon);
+        List<LureModel> listLure;
+        listLure = RepozitoriDB.getListLureModel();
+        list = getListLureModdel(listLure);
+        adapter = new LureAdapter(list);
+        recyclerView = view.findViewById(R.id.rv_list_spoon);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         return view;
+    }
+
+    private List<LureModel> getListLureModdel(List<LureModel> list) {
+        List<LureModel> lureModels = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            lureModel = list.get(i);
+            if (lureModel.getTypeLure().equals("SPOON")) {
+                lureModels.add(lureModel);
+            } else {
+
+            }
+        }
+        return lureModels;
     }
 }

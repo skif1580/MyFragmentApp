@@ -1,9 +1,9 @@
 package com.example.myfragmentapp.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toolbar;
@@ -15,7 +15,6 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 import moxy.MvpAppCompatFragment;
 
@@ -23,6 +22,7 @@ public class LureCollection extends MvpAppCompatFragment {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
+    private SetAddItemLureListener lureListener;
 
     public static LureCollection newInstance() {
         Bundle args = new Bundle();
@@ -31,6 +31,16 @@ public class LureCollection extends MvpAppCompatFragment {
         return fragment;
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+      if (context instanceof SetAddItemLureListener){
+          lureListener=(SetAddItemLureListener) context;
+      }else {
+          new RuntimeException(context.toString()+" must implement SetAddItemListener");
+      }
+
+    }
 
     @Nullable
     @Override
@@ -68,6 +78,7 @@ public class LureCollection extends MvpAppCompatFragment {
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()){
                 case R.id.mn_add_lure:
+                    addItemLure();
                     break;
             }
             return true;
@@ -75,8 +86,25 @@ public class LureCollection extends MvpAppCompatFragment {
 
     }
 
+    private void addItemLure() {
+        if (lureListener!=null){
+            lureListener.addItemLureListener();
+        }
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        lureListener=null;
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+  public   interface SetAddItemLureListener{
+        void addItemLureListener();
     }
 }

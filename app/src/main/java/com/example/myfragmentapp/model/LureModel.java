@@ -1,43 +1,59 @@
 package com.example.myfragmentapp.model;
 
 import com.example.myfragmentapp.ui.TypeLure;
+import com.orm.SugarRecord;
 
-import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
-public class LureModel implements Serializable {
-    private String name;
-    private int id;
+public class LureModel extends SugarRecord<LureModel>  {
+    private String nameModel;
+    private String nameProducer;
+    private String date;
+    private long key;
     private String image;
     private String typeLure;
-
-
-    public LureModel(String name, TypeLure typeLure) {
-        this.name = name;
-        this.typeLure= String.valueOf(typeLure);
-    }
-
-
-    public LureModel(String name) {
-        this.name = name;
-    }
 
     public LureModel() {
     }
 
-    public String getName() {
-        return name;
+    public LureModel(String name, TypeLure typeLure) {
+        this.date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        this.nameProducer = name;
+        this.typeLure = String.valueOf(typeLure);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public LureModel(String nameModel, String nameProducer, String image, String typeLure) {
+        this.date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        this.nameModel = nameModel;
+        this.nameProducer = nameProducer;
+        this.image = image;
+        this.typeLure = typeLure;
     }
 
-    public int getId() {
-        return id;
+    public LureModel(String nameModel, String nameProducer, String typeLure) {
+        this.date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        this.nameModel = nameModel;
+        this.nameProducer = nameProducer;
+        this.typeLure = typeLure;
+        this.key = System.currentTimeMillis();
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getNameModel() {
+        return nameModel;
+    }
+
+    public void setNameModel(String nameModel) {
+        this.nameModel = nameModel;
+    }
+
+    public String getNameProducer() {
+        return nameProducer;
+    }
+
+    public void setNameProducer(String nameProducer) {
+        this.nameProducer = nameProducer;
     }
 
     public String getImage() {

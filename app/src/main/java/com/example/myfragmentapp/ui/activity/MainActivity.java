@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import com.example.myfragmentapp.model.Fishing;
 import com.example.myfragmentapp.ui.GetStartFragmentImage;
+import com.example.myfragmentapp.ui.fragment.AddLureFragment;
 import com.example.myfragmentapp.ui.fragment.Aut_Fragment;
 import com.example.myfragmentapp.ui.fragment.BlankFragment;
 import com.example.myfragmentapp.ui.fragment.FirstWindow;
@@ -21,7 +22,7 @@ import com.example.myfragmentapp.ui.fragment.LureCollection;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentStart.StfrtFragment2, GetStartFragmentImage, Aut_Fragment.AddStartFragment,
-        FirstWindow.OnFragmentInteractionListener {
+        FirstWindow.OnFragmentInteractionListener,LureCollection.SetAddItemLureListener, AddLureFragment.LureColectionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,4 +79,17 @@ public class MainActivity extends AppCompatActivity implements FragmentStart.Stf
     }
 
 
+    @Override
+    public void addItemLureListener() {
+          getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                  .replace(R.id.fl_container, AddLureFragment.newInstance(),"Panel5")
+          .commit();
+    }
+
+    @Override
+    public void getLureColectionListener() {
+        getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.fl_container, LureCollection.newInstance(), "Panel6")
+                .commit();
+    }
 }

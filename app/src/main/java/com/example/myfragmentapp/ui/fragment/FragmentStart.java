@@ -163,51 +163,6 @@ public class FragmentStart extends MvpAppCompatFragment implements InitianWindow
 
     }
 
-    private void addDialogShow(final FishAdapter adapter) {
-        final View view = getLayoutInflater().inflate(R.layout.aler_dialog, null, false);
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-        dialog.setTitle("Add fishing")
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setView(view)
-                .setPositiveButton("OK", (dialog1, which) -> {
-                    EditText editText = view.findViewById(R.id.et_alert);
-                    name = editText.getText().toString();
-                    Fishing fishing = new Fishing();
-                    new PrezenterDB().myComplit(fishing)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new CompletableObserver() {
-                                @Override
-                                public void onSubscribe(Disposable d) {
-
-                                }
-
-                                @Override
-                                public void onComplete() {
-                                    snackbar.setAction("Action", null)
-                                            .setDuration(5000)
-                                            .show();
-
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-
-
-                                }
-                            });
-                    fishing.setName(name);
-                    listFishing.add(fishing);
-                    RepozitoriDB.addFIshingDB(fishing);
-                    adapter.setList(listFishing);
-
-                })
-                .setNegativeButton("Cansel", null);
-
-        dialog.show();
-
-    }
-
     private void deleteFishing(final Fishing fishing) {
         AlertDialog.Builder dialogDelet = new AlertDialog.Builder(getActivity());
         dialogDelet.setTitle("Delete List ?")

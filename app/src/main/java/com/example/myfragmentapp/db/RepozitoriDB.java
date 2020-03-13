@@ -1,6 +1,7 @@
 package com.example.myfragmentapp.db;
 
 import com.example.myfragmentapp.model.Fishing;
+import com.example.myfragmentapp.model.LureModel;
 
 import java.util.List;
 
@@ -20,8 +21,9 @@ public class RepozitoriDB {
         fishing.delete();
 
     }
-    public  static List<Fishing> getListFishing(){
-        List <Fishing>list=Fishing.listAll(Fishing.class);
+
+    public static List<Fishing> getListFishing() {
+        List<Fishing> list = Fishing.listAll(Fishing.class);
         return list;
     }
 
@@ -29,4 +31,17 @@ public class RepozitoriDB {
         Fishing.deleteAll(Fishing.class);
 
     }
+
+    public static void addLureModel(LureModel lureModel) {
+        lureModel.save();
+    }
+
+    public static void deletLureModel(LureModel lureModel) {
+        lureModel.delete();
+    }
+
+    public static List<LureModel> getListLureModel() {
+        return LureModel.listAll(LureModel.class);
+    }
+
 }
