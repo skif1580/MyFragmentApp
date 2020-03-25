@@ -11,8 +11,8 @@ import android.widget.Toast;
 
 
 import com.example.myfragmentapp.R;
-import com.example.myfragmentapp.networck.ControlerApi;
-import com.example.myfragmentapp.networck.responce.PriceMultiFull;
+import com.example.myfragmentapp.network.ControlerApi;
+import com.example.myfragmentapp.network.responce.PriceMultiFull;
 import com.example.myfragmentapp.repository.Repository;
 
 import androidx.annotation.NonNull;
