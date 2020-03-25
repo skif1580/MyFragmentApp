@@ -85,8 +85,6 @@ public class FishAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         .centerCrop()
                         .placeholder(R.drawable.images)
                         .into(holderView.imageView);
-
-
                 holderView.imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

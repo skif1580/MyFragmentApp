@@ -5,8 +5,10 @@ import com.example.myfragmentapp.model.LureModel;
 
 import java.util.List;
 
+import androidx.lifecycle.LifecycleObserver;
 
-public class RepozitoriDB {
+
+public class RepozitoriDB implements LifecycleObserver {
 
     public static Fishing getFishing(Long key) {
         Fishing fishing1 = Fishing.findById(Fishing.class, key);
@@ -43,5 +45,6 @@ public class RepozitoriDB {
     public static List<LureModel> getListLureModel() {
         return LureModel.listAll(LureModel.class);
     }
+
 
 }

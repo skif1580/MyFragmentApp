@@ -41,7 +41,7 @@ public class MySilikon extends MvpAppCompatFragment {
         List<LureModel> listlure;
         listlure = RepozitoriDB.getListLureModel();
         list = getListLureModdel(listlure);
-        adapter = new LureAdapter(list);
+        adapter = new LureAdapter(list,getActivity());
         recyclerView = view.findViewById(R.id.rv_list_silikon);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);

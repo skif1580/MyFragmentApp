@@ -42,7 +42,7 @@ public class MySpoon extends MvpAppCompatFragment {
         List<LureModel> listLure;
         listLure = RepozitoriDB.getListLureModel();
         list = getListLureModdel(listLure);
-        adapter = new LureAdapter(list);
+        adapter = new LureAdapter(list,getActivity());
         recyclerView = view.findViewById(R.id.rv_list_spoon);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);

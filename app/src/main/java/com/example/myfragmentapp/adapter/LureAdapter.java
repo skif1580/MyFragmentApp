@@ -3,6 +3,7 @@ package com.example.myfragmentapp.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,6 +12,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.myfragmentapp.R;
 import com.example.myfragmentapp.db.RepozitoriDB;
 import com.example.myfragmentapp.model.LureModel;
@@ -49,78 +51,83 @@ public class LureAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
         LureHolderView lureHolderView = (LureHolderView) holder;
         if (getItemViewType(position) == TYPE_VOBLER) {
             lureModel = listLure.get(position);
             lureHolderView.tvName.setText(lureModel.getNameProducer());
             lureHolderView.tvSybname.setText(lureModel.getNameModel());
             lureHolderView.imageView.setImageResource(R.drawable.vobbler);
-            lureHolderView.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            //  Uri uri= Uri.parse(lureModel.getImage());
+            // Glide.with(context)
+            //       .load(uri)
+            //     .centerCrop()
+            //   .placeholder(R.drawable.vobbler)
+            // .into(lureHolderView.imageView);
+            lureHolderView.imageView.setOnClickListener(new OnClickListener() {
                 @Override
-                public boolean onLongClick(View v) {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-                    dialog.setTitle("Видалити приманку з колекції")
-                            .setPositiveButton("Видалити", (dialog1, which) -> {
-                                RepozitoriDB.deletLureModel(lureModel);
-                                listLure.remove(position);
-                                notifyDataSetChanged();
-                            })
-                            .setNegativeButton("Відмінна", (dialog13, which) -> {
+                public void onClick(View v) {
+                    if (onClickListenerItem != null) {
+                        onClickListenerItem.ItemClickListener();
+                    }
 
-                            });
-                    return true;
                 }
+            });
+            lureHolderView.cardView.setOnLongClickListener(v -> {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                dialog.setTitle("Видалити приманку з колекції")
+                        .setPositiveButton("Видалити", (dialog1, which) -> {
+                            listLure.remove(lureModel);
+                            RepozitoriDB.deletLureModel(lureModel);
+                            setList(listLure);
+                        })
+                        .setNegativeButton("Відмінна", (dialog13, which) -> {
+
+                        });
+                dialog.show();
+                return true;
             });
         } else if (getItemViewType(position) == TYPE_SILIKON) {
             lureModel = listLure.get(position);
             lureHolderView.tvName.setText(lureModel.getNameProducer());
             lureHolderView.tvSybname.setText(lureModel.getNameModel());
             lureHolderView.imageView.setImageResource(R.drawable.silikon);
-            lureHolderView.cardView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-                    dialog.setTitle("Видалити приманку з колекції")
-                            .setPositiveButton("Видалити", (dialog1, which) -> {
-                                RepozitoriDB.deletLureModel(lureModel);
-                                listLure.remove(position);
-                                notifyDataSetChanged();
-                            })
-                            .setNegativeButton("Відмінна", (dialog13, which) -> {
+            lureHolderView.cardView.setOnLongClickListener(v -> {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                dialog.setTitle("Видалити приманку з колекції")
+                        .setPositiveButton("Видалити", (dialog1, which) -> {
+                            listLure.remove(lureModel);
+                            RepozitoriDB.deletLureModel(lureModel);
+                            setList(listLure);
+                        })
+                        .setNegativeButton("Відмінна", (dialog13, which) -> {
 
-                            });
-                    return true;
-                }
+                        });
+                dialog.show();
+                return true;
             });
         } else {
             lureModel = listLure.get(position);
             lureHolderView.tvName.setText(lureModel.getNameProducer());
             lureHolderView.tvSybname.setText(lureModel.getNameModel());
             lureHolderView.imageView.setImageResource(R.drawable.spoon);
-            lureHolderView.cardView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-                    dialog.setTitle("Видалити приманку з колекції")
-                            .setPositiveButton("Видалити", (dialog1, which) -> {
-                                RepozitoriDB.deletLureModel(lureModel);
-                                listLure.remove(position);
-                                notifyDataSetChanged();
-                            })
-                            .setNegativeButton("Відмінна", (dialog13, which) -> {
+            lureHolderView.cardView.setOnLongClickListener(v -> {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                dialog.setTitle("Видалити приманку з колекції")
+                        .setPositiveButton("Видалити", (dialog1, which) -> {
+                            listLure.remove(lureModel);
+                            RepozitoriDB.deletLureModel(lureModel);
+                            setList(listLure);
+                        })
+                        .setNegativeButton("Відмінна", (dialog13, which) -> {
 
-                            });
-                    return true;
-                }
+                        });
+                dialog.show();
+                return true;
             });
         }
     }
 
-
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
-        super.onBindViewHolder(holder, position, payloads);
-    }
 
     @Override
     public int getItemViewType(int position) {
