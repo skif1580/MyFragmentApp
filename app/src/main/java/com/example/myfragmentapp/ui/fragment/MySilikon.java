@@ -1,5 +1,6 @@
 package com.example.myfragmentapp.ui.fragment;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +42,7 @@ public class MySilikon extends MvpAppCompatFragment {
         List<LureModel> listlure;
         listlure = RepozitoriDB.getListLureModel();
         list = getListLureModdel(listlure);
-        adapter = new LureAdapter(list,getActivity());
+        adapter = new LureAdapter(list, getActivity());
         recyclerView = view.findViewById(R.id.rv_list_silikon);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
@@ -60,5 +61,33 @@ public class MySilikon extends MvpAppCompatFragment {
             }
         }
         return lureModels;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        final LureAdapter.OnClickListenerItem clickListenerItem = new LureAdapter.OnClickListenerItem() {
+            @Override
+            public void itemClickListener(LureModel lureModel) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                dialog.setTitle("Видалити приманку з колекції")
+                        .setPositiveButton("Видалити", (dialog1, which) -> {
+                            list.remove(lureModel);
+                            RepozitoriDB.deletLureModel(lureModel);
+                            adapter.setList(list);
+                        })
+                        .setNegativeButton("Відмінна", (dialog13, which) -> {
+
+                        });
+                dialog.show();
+
+            }
+
+            @Override
+            public void clickImageListener(LureModel lureModel) {
+
+            }
+        };
+        adapter.setOnClickImage(clickListenerItem);
     }
 }
